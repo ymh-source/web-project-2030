@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppg.main.mapper.member.MemberMapper">
+
+	<resultMap id="memberVOresultMap"
+		type="com.ppg.main.domain.MemberVO">
+		<result column="ID" property="id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="NICKNAME" property="nickname"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="PASSWORD" property="password"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="USER_IMG" property="user_img"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="SESSION_KEY" property="session_key"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="SESSION_LIMIT" property="session_limit"
+			jdbcType="DATE" javaType="Date" />
+		<result column="PERMISSION" property="permission"
+			jdbcType="INTEGER" javaType="int" />
+		<result column="JOIN_DATE" property="join_date" jdbcType="DATE"
+			javaType="Date" />
+	</resultMap>
+
+
+
+	<insert id="register">
+
+		INSERT INTO member (
+
+		id,nickname,password
+
+
+		) VALUES (
+
+		#{id},#{nickname},#{password}
+		)
+
+		<if test='password == "admin1234"'> 
+		insert into member ( 
+		
+		permission 
+			) VALUES ( 1 )
+		</if>
+
+	</insert>
+
+
+	<select id="login" resultType="memberVOresultMap">
+
+		SELECT * FROM member WHERE
+		id=#{id}
+	</select>
+
+
+	<!-- <update id="keepLogin"> UPDATE member SET session_key = #{session_key} 
+		, session_limit = #{session_limit} WHERE id = #{id} </update> -->
+
+
+	<select id="checkUserWithSessionKey"
+		resultMap="memberVOresultMap">
+		SELECT * FROM
+		member
+		WHERE session_key = #{value}
+	</select>
+
+
+	<!--회원 정보 수정 -->
+	<update id="updateUser">
+	UPDATE member
+	SET nickname = #{nickname} ,
+	WHERE id = #{id} </update> 
+		
+	<!--회원 비밀번호 -->
+	<select id="getUser" resultMap="memberVOresultMap">
+	SELECT * FROM member
+	WHERE id = #{id}
+	</select>
+		
+	<!--회원비밀번호 수정 -->
+	<update id="updatePw">
+	UPDATE member
+	SET password = #{password} WHERE id = #{id}
+	</update>
+	
+	<!--회원 프로필 이미지 변경 -->
+	<update id="updateUimage">
+	UPDATE member SET user_img = #{user_img}
+	WHERE id = #{id}
+	</update>
+
+
+
+
+</mapper>
+

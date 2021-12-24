@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<bean class="com.zaxxer.hikari.HikariConfig" id="hikariConfig">
+
+		<property value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"
+			name="driverClassName" />
+
+		<!-- 학원 오라클에서 할 때 시드 XE로 변경 -->
+		<property
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"
+			name="jdbcUrl" />
+
+		<property value="c##scott" name="username" />
+
+		<property value="tiger" name="password" />
+
+	</bean>
+
+	<!-- HikariCP configuration -->
+
+	<bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource"
+		destroy-method="close">
+
+		<constructor-arg ref="hikariConfig" />
+
+	</bean>
+
+	<!-- 예린 추가 -->
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSession"></constructor-arg>
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSession">
+		<!-- 예린 추가 -->
+
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- 예린 추가 -->
+		<property name="mapperLocations"
+			value="classpath*:/mapper/**/*.xml" />
+
+		<!-- mybatis-config.xml에 대한 정보를 기술함 -->
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml"></property>
+
+		<!-- 예린 추가 -->
+
+	</bean>
+
+	<!-- 파일 업로드 경로를 설정 -->
+
+	 <bean id="ProfileImgPath" class="java.lang.String">
+		<constructor-arg
+			value="D:\dev\workspace\2030\src\main\webapp\resources\upload">
+		</constructor-arg>
+	</bean>
+
+
+	<context:component-scan
+		base-package="com.ppg.main.service"></context:component-scan>
+	<context:component-scan
+		base-package="com.ppg.main.persistence"></context:component-scan>
+
+	<mybatis-spring:scan
+		base-package="com.ppg.commu.mapper" />
+	<context:component-scan
+		base-package="com.ppg.commu.service" />
+		
+		
+		<context:component-scan
+		base-package="com.ppg.policy.service" />
+		<context:component-scan
+		base-package="com.ppg.policy.persistence" />
+
+
+</beans>

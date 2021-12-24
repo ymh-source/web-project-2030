@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ppg.commu.mapper.CmuBoardMapper">
+
+
+	<select id="getReviewBoardList" resultType="CmuBoardVO">
+	<![CDATA[
+	select /*+INDEX_DESC (commu_reviewBoard pk_commu_reviewBoard_postNum) */
+	rownum rn, postNum, title, nickName, regDate, watcher, up, down
+	from commu_reviewBoard
+	where postNum > 0
+	]]>
+	</select>
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							text like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							nickName like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getReviewBoardPaging" resultType="CmuBoardVO"> <![CDATA[ 
+		select postNum, title, nickName, regDate, watcher, up, down from ( select 
+		/*+INDEX_DESC (commu_reviewBoard pk_commu_reviewBoard_postNum) */ rownum 
+		rn, postNum, title, nickName, regDate, watcher, up, down from commu_reviewBoard 
+		where ]]>
+		<include refid="criteria"></include> 
+		<![CDATA[ rownum <= #{pageNum} 
+		* #{amount} ) where rn > (#{pageNum} -1) * #{amount} ]]>
+	</select>
+
+
+
+	<select id="getTotalCount" resultType="int">
+		select count(*) from commu_reviewBoard
+		where
+		<include refid="criteria"></include>
+		postNum > 0
+	</select>
+
+	<insert id="insert">
+		insert into commu_reviewBoard(postNum, title, text,
+		nickName)
+		values(seq_commu_reviewBoard.nextval, #{title}, #{text},
+		#{nickName})
+	</insert>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="postNum" order="BEFORE"
+			resultType="int">
+			select seq_commu_reviewBoard.nextval from dual
+		</selectKey>
+		insert into commu_reviewBoard(postNum, title, text, nickName)
+		values(seq_commu_reviewBoard.nextval, #{title}, #{text}, #{nickName})
+	</insert>
+
+	<insert id="insertComment">
+		insert into COMMU_REVIEW_POST_COMMENT(postNum,
+		commentNum, nickName, text)
+		values(#{postNum},
+		SEQ_COMMU_REVIEW_POST_COMMENT.nextval, #{nickName},
+		#{text})
+	</insert>
+
+	<update id="updateReply">
+		update COMMU_REVIEWBOARD
+		set reply = reply +1
+		where
+		postNum = #{postNum}
+	</update>
+
+	 <delete id="delComment" parameterType="CmuCommentVO">
+		delete from COMMU_REVIEW_POST_COMMENT where commentNum = #{commentNum}
+	</delete>
+
+	<update id="decReply" parameterType="CmuCommentVO">
+		update COMMU_REVIEWBOARD
+		set reply = reply -1
+		where postNum = #{postNum}
+	</update>
+
+	<select id="readPost" resultType="CmuBoardVO">
+		select * from commu_reviewBoard
+		where postNum = #{postNum}
+	</select>
+
+	<select id="getCommentList" resultType="CmuBoardVO">
+	<![CDATA[
+	select /*+INDEX_DESC  (commu_review_post_comment pk_commentNum) */
+	rownum rn, postNum, commentNum, nickName, text, regDate 
+ from commu_review_post_comment
+	where postNum = #{postNum}
+	]]>
+	</select>
+
+	<delete id="delReview">
+		delete from COMMU_REVIEWBOARD where postNum =
+		#{postNum}
+	</delete>
+
+	<update id="updateReview">
+		update COMMU_REVIEWBOARD
+		set title = #{title}, text =
+		#{text}
+		where postNum = #{postNum}
+	</update>
+	
+	<update id="updateWatcher">
+	update COMMU_REVIEWBOARD
+	set watcher = watcher +1
+	where postNum = #{postNum}
+</update>
+
+</mapper>

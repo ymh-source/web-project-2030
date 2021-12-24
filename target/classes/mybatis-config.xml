@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<typeAliases>
+		<typeAlias alias="memberVOresultMap" type="com.ppg.main.domain.MemberVO" />
+        <typeAlias  alias="CmuBoardVO" type="com.ppg.commu.domain.CmuBoardVO"/>
+        <typeAlias  alias="CmuCommentVO" type="com.ppg.commu.domain.CmuCommentVO"/>
+	</typeAliases>
+	
+	
+</configuration>
+
