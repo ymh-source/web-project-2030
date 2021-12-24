@@ -25,13 +25,49 @@
 * src/main/resources/mapper/commu/CmuBoardMapper.xml<br><br>
 
 * src/main/webapp/resources/css/community/community_board.css<br>
-　　　　　　　　　　　　　　　　　　/community_post_view.css<br>
-　　　　　　　　　　　　　　　　　　/community_write_post.css<br><br>
+　　　　　　　　　　　　　　　　　　　　/community_post_view.css<br>
+　　　　　　　　　　　　　　　　　　　　/community_write_post.css<br><br>
 
 * src/main/webapp/WEB-INF/views/community/board_review/board_review.jsp<br>
+<p align="center"><img src="https://user-images.githubusercontent.com/86193563/147346232-aca744d1-2014-42f2-b321-7728b8ce80d8.png" width="50%"/></p>
+　　　　　　　　　　　　　　　　* 게시글 20개씩 1페이지에 출력<br>
+　　　　　　　　　　　　　　　　* 게시글 번호, 제목, 작성자, 작성일, 조회수, 추천수, 비추천수 출력<br>
+　　　　　　　　　　　　　　　　* 10페이지씩 페이징<br>
+　　　　　　　　　　　　　　　　* 글쓰기 버튼 -> 글작성 창으로 이동<br>
+　　　　　　　　　　　　　　　　* 제목/내용/제목+내용 중 선택하여 검색 -> 검색어가 포함된 게시글 리스트 출력
+<br><br><br>
 
 * src/main/webapp/WEB-INF/views/community/board_review/board_write_post.jsp<br>
+<p align="center"><img src="https://user-images.githubusercontent.com/86193563/147346981-53c44593-5766-4a8b-9dac-3dc19acc7ec9.png" width="50%"/></p>
+　　　　　　　　　　　　　　　　* 제목, 내용 필수 입력<br>
+　　　　　　　　　　　　　　　　* 확인 버튼 -> 글이 등록되며 게시글 리스트로 돌아감<br>
+　　　　　　　　　　　　　　　　* 취소 버튼 -> 게시글 리스트로 돌아감
+<br><br><br>
 
 * src/main/webapp/WEB-INF/views/community/board_review/board_post_view.jsp<br>
+<p align="center"><img src="https://user-images.githubusercontent.com/86193563/147349512-7b3c4de3-ecb9-4ea9-ad82-7f5078d87f55.png" width="50%"/></p>
+　　　　　　　　　　　　　　　　* 게시글 리스트에서 제목을 클릭하면 해당 글을 보여줌<br>
+　　　　　　　　　　　　　　　　* 제목, 내용, 작성자, 작성일, 조회수, 추천수, 비추천수 출력<br>
+　　　　　　　　　　　　　　　　* 하단의 수정, 삭제 버튼은 작성자 또는 관리자 로그인일 때만 보여짐<br>
+　　　　　　　　　　　　　　　　* 수정 버튼 -> 글수정 창으로 이동<br>
+　　　　　　　　　　　　　　　　* 삭제 버튼 -> 글이 삭제되며 게시글 리스트로 돌아감<br>
+　　　　　　　　　　　　　　　　* 댓글 수와 댓글 리스트 출력<br>
+　　　　　　　　　　　　　　　　* 댓글 작성자, 작성일, 내용 출력<br>
+　　　　　　　　　　　　　　　　* 댓글 작성 후, 등록 버튼 -> 댓글 추가됨
+<br><br><br>
 
 * src/main/webapp/WEB-INF/views/community/board_review/board_mod_post.jsp<br>
+<p align="center"><img src="https://user-images.githubusercontent.com/86193563/147349690-5fecff26-b761-4c83-ab7e-1a27982d166e.png" width="50%"/></p>
+　　　　　　　　　　　　　　　　* 작성되있는 제목과 내용을 불러옴<br>
+　　　　　　　　　　　　　　　　* 확인 버튼 -> 글이 수정되며 게시글 리스트로 돌아감<br>
+　　　　　　　　　　　　　　　　* 취소 버튼 -> 게시글로 되돌아감<br>
+<br><br><br>
+
+### 추가해야 할 것
+- 글쓰기 텍스트 에디터, 파일 첨부 기능
+- 댓글 삭제 기능
+- 글 추천/비추천 기능
+- 게시판 리스트에서 제목 옆에 댓글 수 출력
+- 자유 게시판(후기 게시판과 동일하게 진행)
+- 인기 게시판(후기 게시판, 자유 게시판 통틀어서 조회수 TOP20 게시글 출력, 제목 앞에 카테고리 출력)
+<br>
